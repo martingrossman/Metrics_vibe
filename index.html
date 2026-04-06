@@ -2313,7 +2313,7 @@
     }
 
     #mosaicSVG {
-      aspect-ratio: 700 / 285;
+      aspect-ratio: 330 / 300;
       max-height: none;
     }
 
@@ -3934,7 +3934,7 @@ function switchView(view) {
     const TN = Nn - FP;
 
     const svg = $('mosaicSVG');
-    const mobile = isMobile();
+    const mobile = isMobile() || isShortLandscapeMode();
     renderMosaicHorizontal(svg, P, Nn, TP, FN, FP, TN, tpr, fpr, mobile);
   }
 
@@ -4068,23 +4068,26 @@ function switchView(view) {
   }
 
   function renderMosaicHorizontal(svg, P, Nn, TP, FN, FP, TN, tpr, fpr, mobile = false) {
-    const W = mobile ? 360 : 700;
-    const H = mobile ? 280 : 340;
+    const mobileLandscape = mobile && isShortLandscapeMode();
+    const W = mobile ? (mobileLandscape ? 330 : 360) : 700;
+    const H = mobile ? (mobileLandscape ? 300 : 280) : 340;
     svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
-    const pad = mobile ? { l: 56, r: 56, t: 30, b: 52 } : { l: 72, r: 72, t: 30, b: 40 };
+    const pad = mobile
+      ? (mobileLandscape ? { l: 52, r: 52, t: 30, b: 56 } : { l: 56, r: 56, t: 30, b: 52 })
+      : { l: 72, r: 72, t: 30, b: 40 };
     const bW = W - pad.l - pad.r;
     const bH = H - pad.t - pad.b;
     const typo = mobile ? {
-      banner: 10,
-      rowLabel: 11,
-      meta: 10,
-      sideLabel: 10,
-      sideGap: 6,
-      sideLine: 7,
-      cellLabel: 13,
-      cellCount: 11,
-      cellMinW: 34,
-      cellMinH: 28
+      banner: mobileLandscape ? 8 : 10,
+      rowLabel: mobileLandscape ? 9 : 11,
+      meta: mobileLandscape ? 8 : 10,
+      sideLabel: mobileLandscape ? 8 : 10,
+      sideGap: mobileLandscape ? 8 : 6,
+      sideLine: mobileLandscape ? 6 : 7,
+      cellLabel: mobileLandscape ? 10 : 13,
+      cellCount: mobileLandscape ? 9 : 11,
+      cellMinW: mobileLandscape ? 44 : 34,
+      cellMinH: mobileLandscape ? 34 : 28
     } : getMosaicTypography(false);
 
     const pW = state.bal * bW;
