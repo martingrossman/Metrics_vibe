@@ -1,0 +1,23 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# OS/editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Logs/temp
+*.log
+*.tmp
+tmp/
+temp/
+
+# Local test artifacts
+*_dump.txt
+*_err.txt
+*_out.txt
+*.png
+
